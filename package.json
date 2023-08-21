@@ -39,11 +39,11 @@
     "sinon": "^9.2.4"
   },
   "devDependencies": {
-    "@open-wc/building-rollup": "^1.9.4",
+    "@open-wc/building-rollup": "^3.0.1",
     "@open-wc/eslint-config": "^4.2.0",
-    "@open-wc/testing": "^2.5.32",
+    "@open-wc/testing": "^3.2.0",
     "@web/dev-server": "^0.1.5",
-    "@web/dev-server-storybook": "^0.3.4",
+    "@web/dev-server-storybook": "^0.0.2",
     "@web/test-runner": "^0.12.7",
     "deepmerge": "^4.2.2",
     "eslint": "^7.18.0",
