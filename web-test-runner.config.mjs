@@ -1,31 +1,40 @@
 // import { playwrightLauncher } from '@web/test-runner-playwright';
-import { chromeLauncher } from '@web/test-runner';
+import { puppeteerLauncher } from '@web/test-runner-puppeteer';
 
-export default /** @type {import("@web/test-runner").TestRunnerConfig} */ ({
+export default {
   files: 'test/**/*.test.js',
   nodeResolve: true,
-  browsers: [chromeLauncher({ launchOptions: { args: ['--no-sandbox'] } })],
+  browsers: [
+    puppeteerLauncher({
+      executablePath:
+        '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+      launchOptions: {
+        headless: true,
+        args: ['--no-sandbox'],
+      },
+    }),
+  ],
+};
 
-  /** Compile JS for older browsers. Requires @web/dev-server-esbuild plugin */
-  // esbuildTarget: 'auto',
+/** Compile JS for older browsers. Requires @web/dev-server-esbuild plugin */
+// esbuildTarget: 'auto',
 
-  /** Confgure bare import resolve plugin */
-  // nodeResolve: {
-  //   exportConditions: ['browser', 'development']
-  // },
+/** Confgure bare import resolve plugin */
+// nodeResolve: {
+//   exportConditions: ['browser', 'development']
+// },
 
-  /** Amount of browsers to run concurrently */
-  // concurrentBrowsers: 2,
+/** Amount of browsers to run concurrently */
+// concurrentBrowsers: 2,
 
-  /** Amount of test files per browser to test concurrently */
-  // concurrency: 1,
+/** Amount of test files per browser to test concurrently */
+// concurrency: 1,
 
-  /** Browsers to run tests on */
-  // browsers: [
-  //   playwrightLauncher({ product: 'chromium' }),
-  //   playwrightLauncher({ product: 'firefox' }),
-  //   playwrightLauncher({ product: 'webkit' }),
-  // ],
+/** Browsers to run tests on */
+// browsers: [
+//   playwrightLauncher({ product: 'chromium' }),
+//   playwrightLauncher({ product: 'firefox' }),
+//   playwrightLauncher({ product: 'webkit' }),
+// ],
 
-  // See documentation for all available options
-});
+// See documentation for all available options
