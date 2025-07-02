@@ -48,6 +48,61 @@ it('shows validation error if terms checkbox is not checked on submit', () => {
   });
 });
 
+describe('customer-details - post call scenarios', () => {
+  let routerStub;
+  let fetchStub;
 
+  beforeEach(() => {
+    routerStub = sinon.stub(Router, 'go');
+    fetchStub = sinon.stub(window, 'fetch');
+  });
+
+  afterEach(() => {
+    routerStub.restore();
+    fetchStub.restore();
+  });
+
+  it('navigates to /success when POST is successful', () => {
+    fetchStub.resolves(new Response(null, { status: 200 }));
+
+    return fixture(html`<customer-details></customer-details>`).then(el => {
+      document.body.appendChild(el);
+        el.shadowRoot.querySelector('#first_name').modelValue = 'John';
+    el.shadowRoot.querySelector('#last_name').modelValue = 'Doe';
+    el.shadowRoot.querySelector('#email').modelValue = 'john@example.com';
+    el.shadowRoot.querySelector('#mobile_number').modelValue = '9876543210';
+    el.shadowRoot.querySelector('#monthly_salary').modelValue = 50000;
+    el.shadowRoot.querySelector('#EMIs_amount').modelValue = 1000;
+    el.shadowRoot.querySelector('lion-checkbox').checked = true;
+      const form = el.shadowRoot.querySelector('lion-form');
+      form.submit();
+
+      setTimeout(() => {
+        expect(routerStub.calledOnceWith('/success')).to.be.true;
+      }, 100);
+    });
+  });
+
+  it('navigates to /error when POST fails', () => {
+    fetchStub.resolves(new Response(null, { status: 500 }));
+
+    return fixture(html`<customer-details></customer-details>`).then(el => {
+       document.body.appendChild(el);
+        el.shadowRoot.querySelector('#first_name').modelValue = 'John';
+    el.shadowRoot.querySelector('#last_name').modelValue = 'Smith';
+    el.shadowRoot.querySelector('#email').modelValue = 'john@example.com';
+    el.shadowRoot.querySelector('#mobile_number').modelValue = '9876543210';
+    el.shadowRoot.querySelector('#monthly_salary').modelValue = 45000;
+    el.shadowRoot.querySelector('#EMIs_amount').modelValue = 2000;
+    el.shadowRoot.querySelector('lion-checkbox').checked = true;
+      const form = el.shadowRoot.querySelector('lion-form');
+      form.submit();
+
+      setTimeout(() => {
+        expect(routerStub.calledOnceWith('/error')).to.be.true;
+      },100);
+    });
+  });
+});
 });
 
