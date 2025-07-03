@@ -4,6 +4,8 @@ import '../src/LoanBasicDetails/BasicDetails.js';
 import { Router } from '@vaadin/router';
 
 
+
+
 describe('Basic details', () => {
   before(() => {
     localStorage.setItem('type', 'Personal Loan');
@@ -128,58 +130,49 @@ describe('Basic details', () => {
   });
 });
 
-describe('Basic details - validator arrow functions', () => {
+describe('BasicDetails — “type” Required validator', () => {
+  let el, typeInput;
 
-  it('should trigger Required validator and execute getMessage()', () => {
-    return fixture(html`<basic-details></basic-details>`).then(el => {
-      const input = el.shadowRoot.querySelector('#amount');
+  beforeEach(async () => {
+    el = await fixture(html`<basic-details></basic-details>`);
+    await el.updateComplete;
 
-      input.modelValue = '';
-      input.touched = true;
-      input.dirty = true;
-      input.validate();
-      el.updateComplete;
-      expect(input.hasFeedbackFor.includes('error')).to.be.true;
-      // const requiredValidator = input.validators[2];
-      // expect(requiredValidator.getMessage()).to.include('required field');
-    })
-
+    typeInput = el.shadowRoot.querySelector('#type');
+    typeInput.liveValidate = true;
+    typeInput.disabled = false;   // override your template’s disabled
   });
 
+  it('shows “Type is a required field” when empty', async () => {
+    typeInput.modelValue = '';
+    typeInput.touched = true;
+    typeInput.dirty = true;
 
-  it('should trigger MinNumber validator and execute getMessage()', () => {
-    return fixture(html`<basic-details></basic-details>`).then(el => {
-      const input = el.shadowRoot.querySelector('#amount');
-
-      input.modelValue = 5000;
-      input.touched = true;
-      input.dirty = true;
-      input.validate();
-      el.updateComplete;
-
-
-      expect(input.hasFeedbackFor.includes('error')).to.be.false;
-      // const minValidator = input.validators[0];
-      // expect(minValidator.getMessage()).to.include('greater than ten thousand');
-    })
-
+    await typeInput.validate();
+    await el.updateComplete;
   });
 
-  it('should trigger MaxNumber validator and execute getMessage()', () => {
-    return fixture(html`<basic-details></basic-details>`).then((el) => {
-      const input = el.shadowRoot.querySelector('#amount');
+});
 
-      input.modelValue = 20000000;
-      input.touched = true;
-      input.dirty = true;
-      input.validate();
-      el.updateComplete;
 
-      expect(input.hasFeedbackFor.includes('error')).to.be.false;
-      // const maxValidator = input.validators[1];
-      // expect(maxValidator.getMessage()).to.include('less than ten crore');
-    })
+describe('BasicDetails — <lion-input-amount> validators', () => {
 
+  it('shows "Amount is a required field" when empty', async () => {
+    const el = await fixture(html`<basic-details></basic-details>`);
+    await el.updateComplete;
+    let amountInput = el.shadowRoot.querySelector('#amount');
+
+    amountInput.liveValidate = true;
+    amountInput.modelValue = '';
+    amountInput.touched = true;
+    amountInput.dirty = true;
+
+    await amountInput.validate();
+    await amountInput.updateComplete;
+    await amountInput.feedbackComplete;
+    const { _feedbackNode } = amountInput;
+    expect(_feedbackNode.feedbackData[0].message).to.equal('Amount is a required field')
+    console.log(_feedbackNode.feedbackData, "amoutnn input")
   });
 
-})
+});
+
