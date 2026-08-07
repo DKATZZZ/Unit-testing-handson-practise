@@ -135,7 +135,7 @@ export class BasicDetails extends LocalizeMixin(LitElement) {
             name="type"
             id="type"
             class="type"
-            disabled="diasbled"
+            disabled
             style=" color:black"
             .value="${this.type}"
             .validators="${[
