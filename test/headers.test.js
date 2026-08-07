@@ -7,7 +7,6 @@ describe('Header Component', () => {
 
   beforeEach(async () => {
     localize.locale = 'en-GB';
-
     element = await fixture(html`<loan-header></loan-header>`);
   });
 
@@ -74,11 +73,9 @@ describe('Header Component', () => {
     const enBtn = element.shadowRoot.querySelector('#en-GB');
     const spy = sinon.spy(localize, 'locale', ['set']);
 
-    // en-GB is active initially (doesn't have 'btn-cursor'), so click should be ignored
     enBtn.click();
     await element.updateComplete;
 
-    // Proves lines 80-84 & 89-94 were completely bypassed!
     expect(spy.set.called).to.be.false;
 
     spy.set.restore();
