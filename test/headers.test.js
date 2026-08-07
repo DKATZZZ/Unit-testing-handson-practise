@@ -1,4 +1,5 @@
 import { html, fixture, expect } from '@open-wc/testing';
+import sinon from 'sinon';
 import { localize } from '@lion/localize';
 import '../src/header/Header'; 
 
@@ -78,7 +79,7 @@ describe('Header Component', () => {
 
     expect(spy.set.called).to.be.false;
 
-    spy.set.restore();
+    spy.restore();
   });
 });
 });
